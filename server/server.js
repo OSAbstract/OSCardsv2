@@ -37,7 +37,7 @@ app.use('/card', cardRouter);
 app.use('/deck', deckRouter);
 
 // serve index.html on the route '/'
-app.get('/', (req, res) =>
+app.get('*', (req, res) =>
   res.status(200).sendFile(path.join(__dirname, '../client/src/index.html'))
 );
 
