@@ -43,31 +43,11 @@ cardController.updateCard = (req, res, next) => {
     )
     .then((results) => {
       console.log('results: ', results);
-      res.locals.newCard = results;
+      res.locals.updatedCard = results;
       return next();
     })
     .catch((err) => next(new Error('Error in updateCard method')));
 };
 
 module.exports = cardController;
-
-
-module.exports = cardController;
-
-
-// id
-// :
-//       602d9f8153cc967934304d6f
-// term
-// :
-// "hello"
-// definition
-// :
-// "world"
-// deckId
-// :
-// "1"
-// __v
-// :
-// 0
 

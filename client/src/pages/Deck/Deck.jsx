@@ -55,11 +55,11 @@ class Deck extends Component {
         })
       //axios request to event.target.value; --> localhost:3000/cards/objectID(9348759238475934)
     }
+
     const updateHandler = (event) => {
       let deck = this.state.deck; // [{}]
       let id = event.target.value; // mongoDB document _id
       let index = event.target.index; // index of card being modified within deck array
-
 
       axios.patch(`/card/${id}`)
         .then((res) => {
@@ -67,9 +67,6 @@ class Deck extends Component {
           // let updatedCard = res
           // this.setState({deck[index] = })
         })
-          
-        
-      
     }
 
     inputArray.map((current, i) => {
@@ -79,11 +76,18 @@ class Deck extends Component {
             <p className="card-text">{current.definition}</p>
             <div className="d-flex flex-row justify-content-around">
               <button type="button" className="btn btn-primary btn-sm" value={current._id} onClick={(event) => deleteHandler(event)}>delete card</button>
-              <button type="button" className="btn btn-primary btn-sm" index={i} value={current._id} onClick={(event) => updateHandler(event)} >update card</button>
-              {/* button click needs to send req.params and req.body to the backend */}
+              <Link to={{
+                pathname: `/update`,
+                state: {
+                  id: `${current._id}`
+                }
+              }} 
+              className="btn btn-primary btn-sm" index={i} value={current._id}>update card</Link>                
+              {/* <button type="button" className="btn btn-primary btn-sm" index={i} value={current._id} onClick={(event) => updateHandler(event)}>update card</button> */}
             </div>
           </div>
         )
+        
     })
     return (
         <div className="cards">
