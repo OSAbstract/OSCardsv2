@@ -7,6 +7,7 @@ import UpdateCard from "./pages/UpdateCard";
 import Decks from "./pages/Decks";
 import Deck from "./pages/Deck";
 import Auth from "./pages/Auth";
+import Quiz from "./pages/Quiz";
 
 
 // Utilize react router to render component based on path
@@ -19,6 +20,7 @@ class App extends Component {
             <Route path='/update' component={Header}/>  
             <Route path='/decks' component={Header}/>  
             <Route path='/deck' component={Header}/>  
+            <Route path='/quiz' component={Header}/>  
           <Switch>
             <Route exact path='/' component={Auth}/>  
             <Route exact path='/home' component={AddCard}/>
@@ -26,6 +28,7 @@ class App extends Component {
             <Route exact path='/decks' component={Decks}/>
             <Route exact path='/deck' component={Deck}/>
             <Route exact path='/auth' component={Auth}/>
+            <Route exact path='/quiz' component={Quiz}/>
           </Switch>
           </div>
         </Router>

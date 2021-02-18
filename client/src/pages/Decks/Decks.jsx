@@ -22,7 +22,14 @@ class Decks extends Component {
                   deckNumber: `${arr[i]}`
                 }
               }} 
-              className="btn btn-primary">Enter Deck</Link>
+              className="btn btn-primary">View Deck</Link>
+              <Link to={{
+                pathname: `/quiz`,
+                state: {
+                  deckNumber: `${arr[i]}`
+                }
+              }} 
+              className="btn btn-primary">Quiz Mode</Link>
           </div>
         )
       }
