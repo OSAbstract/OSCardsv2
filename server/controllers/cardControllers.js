@@ -4,6 +4,7 @@
  */
 
 const CardModel = require('../models/card');
+const ObjectID = require('mongodb').ObjectID;
 
 const cardController = {};
 
@@ -22,17 +23,33 @@ cardController.addCard = (req, res, next) => {
 cardController.deleteCard = (req, res, next) => {
   // deconstruct property required in mongoose/mongo model's delete method from request.params
   // const { term } = req.params;
-  const tempId = req.params.uniqueId
+  const tempId = req.params.uniqueId;
   CardModel.deleteOne({_id:`${tempId}`}, (err) => {
-  return next(err)
+  return next(err);
   })
 };
 
-cardController.patchCard = (req, res, next) => {
-  const tempId = req.params.uniqueId;
-  CardModel.findOneAndReplace({_id:`${tempId}`}, req.body)
-  return next();
+cardController.updateCard = (req, res, next) => {
+  const newTerm = req.body.term;
+  const newDefinition = req.body.definition;
+  const newDeckId = req.body.deckId;
+  const objID = req.params.uniqueID;
+  const conditions = {"_id": objID};
+
+  CardModel.findOneAndUpdate(
+    conditions,
+    { term: newTerm, definition: newDefinition, deckId: newDeckId }, 
+    { omitUndefined: true, new: true },
+    )
+    .then((results) => {
+      console.log('results: ', results);
+      res.locals.newCard = results;
+      return next();
+    })
+    .catch((err) => next(new Error('Error in updateCard method')));
 };
+
+module.exports = cardController;
 
 
 module.exports = cardController;
