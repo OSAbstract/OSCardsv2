@@ -28,8 +28,29 @@ cardController.deleteCard = (req, res, next) => {
   })
 };
 
+cardController.patchCard = (req, res, next) => {
+  const tempId = req.params.uniqueId;
+  CardModel.findOneAndReplace({_id:`${tempId}`}, req.body)
+  return next();
+};
+
+
 module.exports = cardController;
 
 
-
+// id
+// :
+//       602d9f8153cc967934304d6f
+// term
+// :
+// "hello"
+// definition
+// :
+// "world"
+// deckId
+// :
+// "1"
+// __v
+// :
+// 0
 

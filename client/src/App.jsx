@@ -14,7 +14,7 @@ class App extends Component {
     return (
         <Router>
           <div>
-          <Route path='/home' component={Header}/>  
+            <Route path='/home' component={Header}/>  
             <Route path='/decks' component={Header}/>  
             <Route path='/deck' component={Header}/>  
           <Switch>
