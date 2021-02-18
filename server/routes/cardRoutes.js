@@ -16,4 +16,8 @@ cardRouter.delete('/:uniqueId', cardController.deleteCard, (req, res) => {
   res.status(200).send('card deleted');
 });
 
+cardRouter.patch('/:uniqueID', cardController.updateCard, (req, res) => {
+  res.status(200).send(res.locals);
+});
+
 module.exports = cardRouter;
