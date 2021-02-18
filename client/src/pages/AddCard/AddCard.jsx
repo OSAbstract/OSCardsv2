@@ -31,7 +31,6 @@ class AddCard extends Component {
   }
   // handles updating our deck state value with any input it receives. 
   handleDeck(event) {
-    console.log(event.target.value)
     event.preventDefault();
     this.setState({deck: event.target.value})
   }
@@ -47,12 +46,17 @@ class AddCard extends Component {
     }
     axios.post("/card", obj)
     .then((res) => {
-      console.log("res: ", res);
+      console.log("res:", res);
+      let array = Array.from(document.querySelectorAll("input"));
+      console.log(array);
+      Array.from(document.querySelectorAll("input")).forEach(input => (input.value = ""));
+  
     })
     .catch((err) => {
       console.log("err: ", err);
     })
   }
+
 
   // The render below deals with creating a form with a dropdown menu that has numbers associated to the decks available to the user.
 
@@ -81,7 +85,7 @@ class AddCard extends Component {
           </select>
         </form>
         <div className="d-flex flex-row justify-content-center align-content-center mt-3">
-          <button class="btn btn-primary" type="submit" onClick={context.handleSubmit}>+</button>
+          <button className="btn btn-primary" type="submit" onClick={context.handleSubmit}>+</button>
         </div>
       </div>
     )

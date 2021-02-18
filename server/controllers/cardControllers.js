@@ -19,4 +19,17 @@ cardController.addCard = (req, res, next) => {
     .catch(() => next(new Error('Error in addCard create method')));
 };
 
+cardController.deleteCard = (req, res, next) => {
+  // deconstruct property required in mongoose/mongo model's delete method from request.params
+  // const { term } = req.params;
+  const tempId = req.params.uniqueId
+  CardModel.deleteOne({_id:`${tempId}`}, (err) => {
+  return next(err)
+  })
+};
+
 module.exports = cardController;
+
+
+
+
