@@ -11,6 +11,7 @@ class Deck extends Component {
       super(props);
       this.state = {
           deck: [],
+          empty: false,
       }
   }
      
@@ -21,7 +22,12 @@ class Deck extends Component {
     axios.get(`/deck/${deckNumber}`)
       .then((res) => {
         console.log("res: ", res);
-        this.setState({deck: res.data})  // {deck: [{card1}, {card2}]}
+        if (res.data.length < 1) {
+          this.setState({empty: true})
+        } else {
+        this.setState({deck: res.data}) 
+        } 
+        // {deck: [{card1}, {card2}]}
       })
       .catch((err) => {
         console.log("err: ", err);
@@ -33,14 +39,26 @@ class Deck extends Component {
     // render a component for each card object
     // ### provide flashcard styling
     // ### provide flashcard functionality
-    const componentsToRender = [];
+
     
+    const componentsToRender = [];
+    const componentAddCard = [];
+
+    if (this.state.empty === true) {
+      componentAddCard.push(
+        <div key={1}>
+          <p>Looks Like There's Nothing Here...</p>,
+          <Link to='/home' className="btn btn-primary">Add a Card!</Link>
+        </div>
+      )
+    }
+
     const inputArray = this.state.deck || [];
     console.log('input array', inputArray)
 
     const deleteHandler = (event) => {
-      let deck = this.state.deck // [{}]
-      let id = event.target.value
+      let deck = this.state.deck; // [{}]
+      let id = event.target.value;
       // want to  look into deck in our state
       // itterate over that array (deck) and remove the card that has the id ^
       let updatedDeck = deck.filter(card => card._id !== id)
@@ -53,12 +71,21 @@ class Deck extends Component {
         .catch((err) => {
           console.log("err: ", err);
         })
-
-        // setState --> trigger rerendering
-        
       //axios request to event.target.value; --> localhost:3000/cards/objectID(9348759238475934)
     }
 
+    const updateHandler = (event) => {
+      let deck = this.state.deck; // [{}]
+      let id = event.target.value; // mongoDB document _id
+      let index = event.target.index; // index of card being modified within deck array
+
+      axios.patch(`/card/${id}`)
+        .then((res) => {
+          console.log('res patch:', res)
+          // let updatedCard = res
+          // this.setState({deck[index] = })
+        })
+    }
 
     inputArray.map((current, i) => {
         componentsToRender.push(
@@ -67,14 +94,26 @@ class Deck extends Component {
             <p className="card-text">{current.definition}</p>
             <div className="d-flex flex-row justify-content-around">
               <button type="button" className="btn btn-primary btn-sm" value={current._id} onClick={(event) => deleteHandler(event)}>delete card</button>
-              <button type="button" className="btn btn-primary btn-sm">update card</button>
+              <Link to={{
+                pathname: `/update`,
+                state: {
+                  id: `${current._id}`,
+                  term: `${current.term}`,
+                  definition: `${current.definition}`,
+                  deck: `${current.deckId}`
+                }
+              }} 
+              className="btn btn-primary btn-sm" index={i} value={current._id}>update card</Link>                
+              {/* <button type="button" className="btn btn-primary btn-sm" index={i} value={current._id} onClick={(event) => updateHandler(event)}>update card</button> */}
             </div>
           </div>
         )
+        
     })
     return (
         <div className="cards">
             {componentsToRender}
+            {componentAddCard}
         </div>
 
 )

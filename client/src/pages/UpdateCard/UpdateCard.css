@@ -1,0 +1,36 @@
+h2 {
+  color: rgb(0, 0, 0);
+  text-align: center;
+}
+
+.submitButton {
+  border: thin solid blue;
+  border-radius: 20px;
+  margin-top: 10px;
+  background-color: lightslategray;
+  padding: 5px 15px;
+  color: white;
+  font-size: 28px;
+}
+
+.cardform {
+  border: thin solid blue;
+  border-radius: 10px;
+  padding: 10px;
+  max-width: 500px;
+  margin: auto;
+}
+
+.addcard {
+  padding: 20px;
+}
+
+input {
+  width: .5vh;
+  border: none;
+  border-bottom: 1px solid whitesmoke;
+}
+
+label {
+  justify-content: center;
+}

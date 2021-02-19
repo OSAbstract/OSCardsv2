@@ -43,14 +43,11 @@ cardController.updateCard = (req, res, next) => {
     )
     .then((results) => {
       console.log('results: ', results);
-      res.locals.newCard = results;
+      res.locals.updatedCard = results;
       return next();
     })
     .catch((err) => next(new Error('Error in updateCard method')));
 };
 
 module.exports = cardController;
-
-
-
 
