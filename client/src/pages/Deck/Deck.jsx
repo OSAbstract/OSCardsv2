@@ -11,6 +11,7 @@ class Deck extends Component {
       super(props);
       this.state = {
           deck: [],
+          empty: false,
       }
   }
      
@@ -21,7 +22,12 @@ class Deck extends Component {
     axios.get(`/deck/${deckNumber}`)
       .then((res) => {
         console.log("res: ", res);
-        this.setState({deck: res.data})  // {deck: [{card1}, {card2}]}
+        if (res.data.length < 1) {
+          this.setState({empty: true})
+        } else {
+        this.setState({deck: res.data}) 
+        } 
+        // {deck: [{card1}, {card2}]}
       })
       .catch((err) => {
         console.log("err: ", err);
@@ -33,8 +39,20 @@ class Deck extends Component {
     // render a component for each card object
     // ### provide flashcard styling
     // ### provide flashcard functionality
-    const componentsToRender = [];
+
     
+    const componentsToRender = [];
+    const componentAddCard = [];
+
+    if (this.state.empty === true) {
+      componentAddCard.push(
+        <div key={1}>
+          <p>Looks Like There's Nothing Here...</p>,
+          <Link to='/home' className="btn btn-primary">Add a Card!</Link>
+        </div>
+      )
+    }
+
     const inputArray = this.state.deck || [];
     console.log('input array', inputArray)
 
@@ -79,7 +97,10 @@ class Deck extends Component {
               <Link to={{
                 pathname: `/update`,
                 state: {
-                  id: `${current._id}`
+                  id: `${current._id}`,
+                  term: `${current.term}`,
+                  definition: `${current.definition}`,
+                  deck: `${current.deckId}`
                 }
               }} 
               className="btn btn-primary btn-sm" index={i} value={current._id}>update card</Link>                
@@ -92,6 +113,7 @@ class Deck extends Component {
     return (
         <div className="cards">
             {componentsToRender}
+            {componentAddCard}
         </div>
 
 )
